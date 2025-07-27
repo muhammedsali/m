@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -281,17 +282,17 @@
 
         .download-card.ios {
             border-color: #007AFF;
-            animation-delay: 0.2s;
+
         }
 
         .download-card.android {
             border-color: #34A853;
-            animation-delay: 0.4s;
+
         }
 
         .download-card.document {
             border-color: #FF6B35;
-            animation-delay: 0.6s;
+
         }
 
         .card-content {
@@ -410,6 +411,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -421,6 +423,7 @@
                 opacity: 0;
                 transform: translateX(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateX(0);
@@ -454,8 +457,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Responsive Design */
@@ -598,6 +606,7 @@
         }
 
         @media (max-width: 480px) {
+
             .left-side,
             .right-side {
                 padding: 1.5rem 1rem;
@@ -677,8 +686,8 @@
         }
     </style>
 </head>
+
 <body>
-    <!-- Theme Toggle Button -->
     <div class="theme-toggle">
         <button id="themeToggle" class="theme-btn">
             <i class="fas fa-sun" id="sunIcon"></i>
@@ -687,15 +696,12 @@
     </div>
 
     <div class="main-container">
-        <!-- Sol Taraf - Kişisel Bilgiler -->
         <div class="left-side">
             <div class="profile-section">
                 <img src="images.jpg" alt="Profil Fotoğrafı" class="profile-image">
                 <h1 class="profile-name">Muhammed SALİ</h1>
+                <h3 class="profile-title">Software Engineer</h3>
 
-          
-                
-        
 
                 <div class="social-links">
                     <a href="https://www.linkedin.com/in/muhammedsalii/" target="_blank" class="social-link">
@@ -711,18 +717,16 @@
             </div>
         </div>
 
-        <!-- Sağ Taraf - Uygulama İndirme -->
         <div class="right-side">
             <div class="app-download-section">
                 <h2 class="section-title">Uygulamamızı İndirin</h2>
-                
+
                 <div class="download-cards">
                     <div class="download-card document">
                         <div class="card-content">
                             <div class="card-icon">
                                 <i class="fas fa-file-alt"></i>
                             </div>
-                              <!--  -->
                             <div class="card-info">
                                 <h3>Yazılım Kullanım Kılavuzu</h3>
                                 <p>Uygulamanın detaylı kullanım kılavuzunu Word veya PDF formatında indirin</p>
@@ -737,7 +741,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="download-card ios coming-soon">
+                    <div class="download-card android coming-soon">
                         <div class="card-content">
                             <div class="card-icon">
                                 <i class="fab fa-google-play"></i>
@@ -749,22 +753,6 @@
                             </div>
                         </div>
                     </div>
-                     <!--  
-                    <div class="download-card android" onclick="downloadApp('android')">
-                        <div class="card-content">
-                            <div class="card-icon">
-                                <i class="fab fa-google-play"></i>
-                            </div>
-                            <div class="card-info">
-                                <h3>Türkçe Android Uygulaması</h3>
-                                <p>Android telefon ve tabletler için geliştirilmiş Türkçe uygulamamızı indirin</p>
-                                <a href="#" class="download-btn" onclick="event.stopPropagation(); downloadApp('android')">
-                                    <i class="fab fa-google-play"></i> Android İndir
-                                </a>
-                            </div>
-                        </div>
-                    </div>-->
-                     <!--  -->
                     <div class="download-card ios coming-soon">
                         <div class="card-content">
                             <div class="card-icon">
@@ -772,7 +760,8 @@
                             </div>
                             <div class="card-info">
                                 <h3>Türkçe iOS Uygulaması</h3>
-                                <p>iPhone ve iPad cihazlar için özel olarak geliştirilmiş Türkçe uygulamamız yakında gelecek</p>
+                                <p>iPhone ve iPad cihazlar için özel olarak geliştirilmiş Türkçe uygulamamız yakında
+                                    gelecek</p>
                                 <span class="coming-soon-badge">Yakında Gelecek</span>
                             </div>
                         </div>
@@ -786,7 +775,6 @@
         </div>
     </div>
 
-    <!-- Loading Overlay -->
     <div class="loading" id="loading">
         <div class="spinner"></div>
         <p>Drive'a yönlendiriliyor...</p>
@@ -797,7 +785,7 @@
         function downloadApp(platform) {
             const loading = document.getElementById('loading');
             loading.style.display = 'flex';
-            
+
             setTimeout(() => {
                 if (platform === 'ios') {
                     // iOS için Drive linki (buraya gerçek Drive linkinizi ekleyin)
@@ -806,7 +794,7 @@
                     // Android için Drive linki (buraya gerçek Drive linkinizi ekleyin)
                     window.open('https://drive.google.com/file/d/YOUR_ANDROID_APK_ID/view?usp=sharing', '_blank');
                 }
-                
+
                 loading.style.display = 'none';
                 showNotification(`${platform === 'ios' ? 'iOS' : 'Android'} uygulaması linki açıldı!`);
             }, 2000);
@@ -815,7 +803,7 @@
         function downloadDocument(format) {
             const loading = document.getElementById('loading');
             loading.style.display = 'flex';
-            
+
             setTimeout(() => {
                 if (format === 'word') {
                     // Word belgesi için Drive linki (buraya gerçek Drive linkinizi ekleyin)
@@ -826,7 +814,7 @@
                     window.open('https://drive.google.com/file/d/1F9s2lGzvT9_lsAmyLBU4m_TXUQDz039g/view?usp=drive_link', '_blank');
                     showNotification('PDF kılavuzu linki açıldı!');
                 }
-                
+
                 loading.style.display = 'none';
             }, 2000);
         }
@@ -846,9 +834,9 @@
                 animation: slideIn 0.3s ease;
             `;
             notification.textContent = message;
-            
+
             document.body.appendChild(notification);
-            
+
             setTimeout(() => {
                 notification.style.animation = 'slideOut 0.3s ease';
                 setTimeout(() => {
@@ -869,7 +857,7 @@
 
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
-            
+
             // Save theme preference
             const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
             localStorage.setItem('theme', theme);
@@ -890,4 +878,5 @@
         document.head.appendChild(style);
     </script>
 </body>
-</html> 
+
+</html>
