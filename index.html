@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolyo & Uygulama İndir</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            height: 100vh;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: #fff;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .theme-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(45deg, #f59e0b, #ef4444);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(245, 158, 11, 0.5), 0 0 0 4px rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .theme-btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        body.dark-mode .theme-btn {
+            background: linear-gradient(45deg, #fbbf24, #f87171);
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.4), 0 0 0 2px rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.dark-mode .theme-btn:hover {
+            box-shadow: 0 12px 35px rgba(251, 191, 36, 0.5), 0 0 0 4px rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        #moonIcon {
+            display: none;
+        }
+
+        body.dark-mode #sunIcon {
+            display: none;
+        }
+
+        body.dark-mode #moonIcon {
+            display: block;
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sol Taraf - Kişisel Bilgiler */
+        .left-side {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .left-side {
+            background: rgba(31, 41, 55, 0.95);
+            color: #fff;
+        }
+
+        .profile-section {
+            max-width: 500px;
+        }
+
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #f59e0b;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .profile-image {
+            border-color: #fbbf24;
+            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3);
+        }
+
+        .profile-name {
+            font-size: 2.5rem;
+            color: #f59e0b;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease 0.2s both;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .profile-name {
+            color: #fbbf24;
+        }
+
+        .profile-title {
+            font-size: 1.3rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.4s both;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .profile-title {
+            color: #d1d5db;
+        }
+
+        .profile-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.6s both;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .profile-description {
+            color: #d1d5db;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .skill-tag {
+            background: linear-gradient(45deg, #f59e0b, #ef4444);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .skill-tag {
+            background: linear-gradient(45deg, #fbbf24, #f87171);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            animation: fadeInUp 1s ease 1s both;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #f59e0b, #ef4444);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        body.dark-mode .social-link {
+            background: linear-gradient(45deg, #fbbf24, #f87171);
+        }
+
+        body.dark-mode .social-link:hover {
+            box-shadow: 0 10px 20px rgba(251, 191, 36, 0.4);
+        }
+
+        /* Sağ Taraf - Uygulama İndirme */
+        .right-side {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .right-side {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .app-download-section {
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .download-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .download-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            animation: fadeInRight 1s ease;
+        }
+
+        .download-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        body.dark-mode .download-card {
+            background: rgba(31, 41, 55, 0.95);
+            color: #fff;
+        }
+
+        .download-card.ios {
+            border-color: #007AFF;
+            animation-delay: 0.2s;
+        }
+
+        .download-card.android {
+            border-color: #34A853;
+            animation-delay: 0.4s;
+        }
+
+        .download-card.document {
+            border-color: #FF6B35;
+            animation-delay: 0.6s;
+        }
+
+        .card-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            width: 50px;
+            text-align: center;
+        }
+
+        .ios .card-icon {
+            color: #007AFF;
+        }
+
+        .android .card-icon {
+            color: #34A853;
+        }
+
+        .document .card-icon {
+            color: #FF6B35;
+        }
+
+        .card-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .card-info h3 {
+            color: #fff;
+        }
+
+        .card-info p {
+            color: #6b7280;
+            margin-bottom: 0.6rem;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        body.dark-mode .card-info p {
+            color: #d1d5db;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(45deg, #f59e0b, #ef4444);
+            color: white;
+            text-decoration: none;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 158, 11, 0.3);
+        }
+
+        body.dark-mode .download-btn {
+            background: linear-gradient(45deg, #fbbf24, #f87171);
+        }
+
+        body.dark-mode .download-btn:hover {
+            box-shadow: 0 10px 20px rgba(251, 191, 36, 0.3);
+        }
+
+        /* Coming Soon Badge */
+        .coming-soon-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: linear-gradient(45deg, #6b7280, #9ca3af);
+            color: white;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        body.dark-mode .coming-soon-badge {
+            background: linear-gradient(45deg, #4b5563, #6b7280);
+        }
+
+        .coming-soon {
+            opacity: 0.7;
+            cursor: default;
+        }
+
+        .coming-soon:hover {
+            transform: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Document Links */
+        .document-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .download-btn.small {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            border-radius: 10px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                height: auto;
+                overflow-y: auto;
+            }
+
+            .main-container {
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .left-side,
+            .right-side {
+                padding: 2rem 1rem;
+                min-height: auto;
+            }
+
+            .profile-section {
+                max-width: 100%;
+            }
+
+            .profile-image {
+                width: 150px;
+                height: 150px;
+                margin-bottom: 1.5rem;
+            }
+
+            .profile-name {
+                font-size: 1.8rem;
+                margin-bottom: 0.8rem;
+            }
+
+            .profile-title {
+                font-size: 1.1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .profile-description {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .skills {
+                gap: 8px;
+                margin-bottom: 1.5rem;
+            }
+
+            .skill-tag {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+
+            .social-links {
+                gap: 0.8rem;
+            }
+
+            .social-link {
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+                margin-bottom: 2rem;
+            }
+
+            .app-download-section {
+                max-width: 100%;
+            }
+
+            .download-cards {
+                gap: 1rem;
+            }
+
+            .download-card {
+                padding: 1.2rem;
+                border-radius: 12px;
+            }
+
+            .card-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .card-icon {
+                font-size: 2rem;
+                width: auto;
+            }
+
+            .card-info h3 {
+                font-size: 1.1rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .card-info p {
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+            }
+
+            .download-btn {
+                padding: 10px 18px;
+                font-size: 0.85rem;
+                border-radius: 18px;
+            }
+
+            .download-btn.small {
+                padding: 8px 12px;
+                font-size: 0.75rem;
+                border-radius: 12px;
+            }
+
+            .document-links {
+                gap: 0.8rem;
+                justify-content: center;
+            }
+
+            .coming-soon-badge {
+                padding: 5px 10px;
+                font-size: 0.7rem;
+                border-radius: 10px;
+            }
+
+            .theme-toggle {
+                top: 15px;
+                right: 15px;
+            }
+
+            .theme-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+                border-width: 2px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .left-side,
+            .right-side {
+                padding: 1.5rem 1rem;
+            }
+
+            .profile-image {
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-name {
+                font-size: 1.6rem;
+            }
+
+            .profile-title {
+                font-size: 1rem;
+            }
+
+            .profile-description {
+                font-size: 0.95rem;
+            }
+
+            .skills {
+                gap: 6px;
+            }
+
+            .skill-tag {
+                padding: 5px 10px;
+                font-size: 0.75rem;
+            }
+
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .download-card {
+                padding: 1rem;
+            }
+
+            .card-icon {
+                font-size: 1.8rem;
+            }
+
+            .card-info h3 {
+                font-size: 1rem;
+            }
+
+            .card-info p {
+                font-size: 0.85rem;
+            }
+
+            .download-btn {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+
+            .download-btn.small {
+                padding: 6px 10px;
+                font-size: 0.7rem;
+            }
+
+            .document-links {
+                gap: 0.6rem;
+            }
+
+            .theme-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle">
+        <button id="themeToggle" class="theme-btn">
+            <i class="fas fa-sun" id="sunIcon"></i>
+            <i class="fas fa-moon" id="moonIcon"></i>
+        </button>
+    </div>
+
+    <div class="main-container">
+        <!-- Sol Taraf - Kişisel Bilgiler -->
+        <div class="left-side">
+            <div class="profile-section">
+                <img src="https://media.licdn.com/dms/image/v2/D4D03AQGo3fKqJcO8DA/profile-displayphoto-shrink_800_800/B4DZcwfvriHwAk-/0/1748865318598?e=1756339200&v=beta&t=tIh01H9yWoqT_8HlsVLFAxOTHbSfRnVxEJ5ZREhuP14" alt="Profil Fotoğrafı" class="profile-image">
+                <h1 class="profile-name">Muhammed SALİ</h1>
+
+          
+                
+        
+
+                <div class="social-links">
+                    <a href="https://github.com/muhammedsali" target="_blank" class="social-link">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/muhammedsalii/" target="_blank" class="social-link">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="mailto:muhammed.sali1@outlook.com" class="social-link">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sağ Taraf - Uygulama İndirme -->
+        <div class="right-side">
+            <div class="app-download-section">
+                <h2 class="section-title">Uygulamamızı İndirin</h2>
+                
+                <div class="download-cards">
+                    <div class="download-card ios coming-soon">
+                        <div class="card-content">
+                            <div class="card-icon">
+                                <i class="fab fa-apple"></i>
+                            </div>
+                            <div class="card-info">
+                                <h3>Türkçe iOS Uygulaması</h3>
+                                <p>iPhone ve iPad cihazlar için özel olarak geliştirilmiş Türkçe uygulamamız yakında gelecek</p>
+                                <span class="coming-soon-badge">Yakında Gelecek</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="download-card android" onclick="downloadApp('android')">
+                        <div class="card-content">
+                            <div class="card-icon">
+                                <i class="fab fa-google-play"></i>
+                            </div>
+                            <div class="card-info">
+                                <h3>Türkçe Android Uygulaması</h3>
+                                <p>Android telefon ve tabletler için geliştirilmiş Türkçe uygulamamızı indirin</p>
+                                <a href="#" class="download-btn" onclick="event.stopPropagation(); downloadApp('android')">
+                                    <i class="fab fa-google-play"></i> Android İndir
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="download-card document">
+                        <div class="card-content">
+                            <div class="card-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="card-info">
+                                <h3>Yazılım Kullanım Kılavuzu</h3>
+                                <p>Uygulamanın detaylı kullanım kılavuzunu Word veya PDF formatında indirin</p>
+                                <div class="document-links">
+                                    <a href="#" class="download-btn small" onclick="downloadDocument('word')">
+                                        <i class="fas fa-file-word"></i> Word
+                                    </a>
+                                    <a href="#" class="download-btn small" onclick="downloadDocument('pdf')">
+                                        <i class="fas fa-file-pdf"></i> PDF
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p>Drive'a yönlendiriliyor...</p>
+    </div>
+
+    <script>
+        // Download functions
+        function downloadApp(platform) {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'flex';
+            
+            setTimeout(() => {
+                if (platform === 'ios') {
+                    // iOS için Drive linki (buraya gerçek Drive linkinizi ekleyin)
+                    window.open('https://drive.google.com/file/d/YOUR_IOS_APK_ID/view?usp=sharing', '_blank');
+                } else if (platform === 'android') {
+                    // Android için Drive linki (buraya gerçek Drive linkinizi ekleyin)
+                    window.open('https://drive.google.com/file/d/YOUR_ANDROID_APK_ID/view?usp=sharing', '_blank');
+                }
+                
+                loading.style.display = 'none';
+                showNotification(`${platform === 'ios' ? 'iOS' : 'Android'} uygulaması linki açıldı!`);
+            }, 2000);
+        }
+
+        function downloadDocument(format) {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'flex';
+            
+            setTimeout(() => {
+                if (format === 'word') {
+                    // Word belgesi için Drive linki (buraya gerçek Drive linkinizi ekleyin)
+                    window.open('https://docs.google.com/document/d/1zw-IwJAHXFrhtEA-Ur0caWvm1Vb7EyW_/edit?usp=drive_link&ouid=111799727273951632289&rtpof=true&sd=true', '_blank');
+                    showNotification('Word kılavuzu linki açıldı!');
+                } else if (format === 'pdf') {
+                    // PDF belgesi için Drive linki (buraya gerçek Drive linkinizi ekleyin)
+                    window.open('https://drive.google.com/file/d/1F9s2lGzvT9_lsAmyLBU4m_TXUQDz039g/view?usp=drive_link', '_blank');
+                    showNotification('PDF kılavuzu linki açıldı!');
+                }
+                
+                loading.style.display = 'none';
+            }, 2000);
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #667eea;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 10001;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        if (currentTheme === 'dark') {
+            body.classList.add('dark-mode');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            // Save theme preference
+            const theme = body.classList.contains('dark-mode') ? 'dark' : 'light';
+            localStorage.setItem('theme', theme);
+        });
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html> 
