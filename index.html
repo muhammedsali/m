@@ -632,7 +632,8 @@ body{
           <div class="ps-item" onclick="showProj(1,this)">🃏 <span>MemoryCard</span></div>
           <div class="ps-item" onclick="showProj(2,this)">🎮 <span>AgentControl</span></div>
           <div class="ps-item" onclick="showProj(3,this)">🍽️ <span>RestoranTakip</span></div>
-          <div class="ps-item" onclick="showProj(4,this)">📝 <span>NotDefteri</span></div>
+          <div class="ps-item" onclick="showProj(4,this)">⏳ <span>Waitly</span></div>
+          <div class="ps-item" onclick="showProj(5,this)">📝 <span>NotDefteri</span></div>
         </div>
         <div class="proj-content" id="proj-content"></div>
       </div>
@@ -874,7 +875,12 @@ const projects = [
     gh:'https://github.com/muhammedsali/RestoranTakip',live:null
   },
   {
-    title:'NotDefteri',
+    title:'Waitly',
+    type:'Flutter + Node.js — Mobil SaaS',
+    desc:'"Don\'t wait. We do." — Kullanıcıların beklediği her şeyi (İŞKUR ilanı, film/dizi çıkışı, ürün stoğu, sınav duyurusu vb.) otomatik takip eden akıllı asistan. Arka planda çalışan cron+worker motoru değişiklik tespit edince FCM push bildirimi gönderiyor. Freemium modeli ile premium kullanıcılara daha sık kontrol aralığı sunuyor.',
+    stack:['Flutter','Node.js','Express','MongoDB','Firebase FCM','JWT','Clean Architecture'],
+    gh:'https://github.com/muhammedsali/waitly',live:null
+  },
     type:'Java Masaüstü — JavaFX',
     desc:'JavaFX ve FXML ile geliştirilmiş kişisel not defteri. Abstract Factory, Observer ve State tasarım desenleri kullanıldı. MySQL ile CRUD işlemleri, hatırlatma tarihi ve not durum yönetimi (Yeni, Okunmuş, Düzenlenmiş, Silinmiş) içeriyor.',
     stack:['Java','JavaFX','MySQL','Maven','Design Patterns'],
