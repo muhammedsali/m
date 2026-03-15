@@ -3,672 +3,1067 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Muhammed Sali — Full Stack Developer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Syne+Mono&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<title>Muhammed Sali — Portfolio</title>
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#060608;
-  --bg2:#0c0c10;
-  --surface:#10101a;
-  --border:#1c1c28;
-  --border2:#252535;
-  --text:#f0ede8;
-  --text2:#8b8a96;
-  --text3:#4a4958;
-  --lime:#b8ff57;
-  --lime2:#d4ff8a;
-  --blue:#4d7cff;
-  --serif:'Crimson Pro',Georgia,serif;
-  --sans:'Syne',sans-serif;
-  --mono:'Syne Mono',monospace;
-}
-html{scroll-behavior:smooth}
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;user-select:none}
 body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:var(--sans);
-  overflow-x:hidden;
-  cursor:none;
+  font-family:'Segoe UI',Tahoma,Geneva,sans-serif;
+  overflow:hidden;width:100vw;height:100vh;
+  background:#000;
 }
 
-/* CURSOR */
-#cur{
-  width:10px;height:10px;
-  background:var(--lime);
-  border-radius:50%;
-  position:fixed;pointer-events:none;z-index:9999;
-  mix-blend-mode:difference;
-  transition:transform .2s,width .25s,height .25s;
-  transform:translate(-50%,-50%);
+/* ── BOOT SCREEN ── */
+#boot{
+  position:fixed;inset:0;background:#000;z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;
+  transition:opacity 1s;
 }
-#cur.big{width:56px;height:56px}
-#trail{
-  width:38px;height:38px;
-  border:1px solid rgba(184,255,87,.22);
-  border-radius:50%;
-  position:fixed;pointer-events:none;z-index:9998;
-  transform:translate(-50%,-50%);
+#boot.fade{opacity:0;pointer-events:none}
+.boot-logo{
+  display:flex;gap:4px;
 }
+.boot-orb{
+  width:28px;height:28px;border-radius:50%;
+  animation:borb 1.6s ease-in-out infinite;
+}
+.boot-orb:nth-child(1){background:#f25022;animation-delay:0s}
+.boot-orb:nth-child(2){background:#7fba00;animation-delay:.2s}
+.boot-orb:nth-child(3){background:#00a4ef;animation-delay:.4s}
+.boot-orb:nth-child(4){background:#ffb900;animation-delay:.6s}
+@keyframes borb{
+  0%,100%{transform:translateY(0);opacity:.7}
+  50%{transform:translateY(-12px);opacity:1}
+}
+.boot-text{color:#fff;font-size:15px;letter-spacing:.04em;font-weight:300}
+.boot-bar-wrap{width:200px;height:3px;background:#333;border-radius:2px;overflow:hidden}
+.boot-bar{height:100%;background:linear-gradient(90deg,#00a4ef,#7fba00);border-radius:2px;width:0;animation:bbar 2.2s ease forwards}
+@keyframes bbar{to{width:100%}}
 
-/* LOADER */
-#loader{
-  position:fixed;inset:0;background:var(--bg);z-index:10000;
-  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;
-  transition:opacity .6s .2s,visibility .6s .2s;
+/* ── DESKTOP ── */
+#desktop{
+  width:100vw;height:100vh;position:relative;overflow:hidden;
+  background:
+    radial-gradient(ellipse at 30% 60%,rgba(0,100,180,.5),transparent 55%),
+    radial-gradient(ellipse at 80% 20%,rgba(0,60,120,.4),transparent 50%),
+    linear-gradient(160deg,#0a3a6e 0%,#1565c0 35%,#0d47a1 60%,#1a237e 100%);
 }
-#loader.hide{opacity:0;visibility:hidden;pointer-events:none}
-.ld-text{font-family:var(--mono);font-size:13px;color:var(--lime);letter-spacing:.15em}
-.ld-bar{width:200px;height:1px;background:var(--border2);position:relative;overflow:hidden}
-.ld-bar::after{
-  content:'';position:absolute;left:-100%;top:0;height:100%;width:100%;
-  background:linear-gradient(90deg,transparent,var(--lime));
-  animation:ldbar 1.3s ease forwards;
-}
-@keyframes ldbar{to{left:0}}
-
-/* NAV */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:500;
-  padding:28px 60px;
-  display:flex;justify-content:space-between;align-items:center;
-  transition:all .4s;
-}
-nav.solid{
-  background:rgba(6,6,8,.88);backdrop-filter:blur(18px);
-  padding:18px 60px;border-bottom:1px solid var(--border);
-}
-.nav-logo{
-  font-family:var(--mono);font-size:14px;color:var(--text);
-  text-decoration:none;letter-spacing:.04em;
-  display:flex;align-items:center;gap:10px;
-}
-.nav-logo .dot{
-  width:7px;height:7px;background:var(--lime);border-radius:50%;
-  animation:blink 2s infinite;
-}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-.nav-links{display:flex;gap:40px;list-style:none}
-.nav-links a{
-  font-size:12px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--text3);text-decoration:none;transition:color .2s;position:relative;
-}
-.nav-links a::after{
-  content:'';position:absolute;bottom:-4px;left:0;
-  width:0;height:1px;background:var(--lime);transition:width .3s;
-}
-.nav-links a:hover{color:var(--text)}
-.nav-links a:hover::after{width:100%}
-.nav-btn{
-  font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--bg);background:var(--lime);padding:10px 22px;
-  text-decoration:none;border-radius:2px;transition:background .2s,transform .15s;
-}
-.nav-btn:hover{background:var(--lime2);transform:translateY(-1px)}
-
-/* HERO */
-#hero{
-  min-height:100vh;padding:0 60px;
-  display:flex;flex-direction:column;justify-content:center;
-  position:relative;overflow:hidden;
-}
-#hero::before{
+/* Aurora shimmer */
+#desktop::before{
   content:'';position:absolute;inset:0;
-  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
-  background-size:80px 80px;opacity:.35;
-  mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent);
+  background:radial-gradient(ellipse 120% 60% at 50% 80%,rgba(255,255,255,.04),transparent);
+  animation:aurora 8s ease-in-out infinite alternate;
 }
-#hero::after{
-  content:'';position:absolute;top:15%;left:58%;
-  width:700px;height:700px;
-  background:radial-gradient(circle,rgba(184,255,87,.055),transparent 65%);
-  pointer-events:none;
-}
-.h-eyebrow{
-  font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--lime);margin-bottom:24px;
-  opacity:0;animation:up .8s .9s forwards;
-}
-.h-title{
-  font-family:var(--serif);
-  font-size:clamp(60px,8.5vw,124px);
-  line-height:.9;letter-spacing:-.04em;font-weight:300;
-  color:var(--text);max-width:920px;
-  opacity:0;animation:up .9s 1.1s forwards;
-}
-.h-title .gr{
-  font-style:italic;
-  background:linear-gradient(130deg,var(--lime) 0%,var(--blue) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.h-title .ghost{
-  -webkit-text-stroke:1px rgba(240,237,232,.25);-webkit-text-fill-color:transparent;
-}
-.h-bottom{
-  margin-top:44px;display:flex;align-items:flex-end;gap:60px;
-  opacity:0;animation:up .8s 1.3s forwards;
-}
-.h-desc{
-  font-family:var(--serif);font-size:17px;font-weight:300;
-  color:var(--text2);line-height:1.9;max-width:480px;
-}
-.h-desc strong{color:var(--text);font-weight:400}
-.h-scroll{
-  display:flex;flex-direction:column;align-items:center;gap:8px;padding-bottom:2px;
-  font-family:var(--mono);font-size:10px;letter-spacing:.15em;
-  color:var(--text3);text-transform:uppercase;flex-shrink:0;
-}
-.h-scroll-line{
-  width:1px;height:48px;
-  background:linear-gradient(to bottom,var(--text3),transparent);
-  animation:sl 2s ease infinite;
-}
-@keyframes sl{
-  0%{transform:scaleY(0);transform-origin:top}
-  50%{transform:scaleY(1);transform-origin:top}
-  51%{transform:scaleY(1);transform-origin:bottom}
-  100%{transform:scaleY(0);transform-origin:bottom}
-}
-.h-tags{
-  display:flex;gap:10px;flex-wrap:wrap;margin-top:52px;
-  opacity:0;animation:up .8s 1.5s forwards;
-}
-.h-tag{
-  font-family:var(--mono);font-size:11px;color:var(--text3);
-  border:1px solid var(--border2);padding:5px 16px;border-radius:100px;
-  letter-spacing:.06em;transition:all .25s;
-}
-.h-tag:hover{color:var(--lime);border-color:rgba(184,255,87,.4);background:rgba(184,255,87,.05)}
-
-/* badge */
-.h-badge{
-  position:absolute;right:60px;bottom:80px;width:130px;height:130px;
-  opacity:0;animation:up .8s 1.7s forwards;
-}
-.h-badge svg{animation:spin 14s linear infinite}
-.h-badge .bdot{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-}
-.h-badge .bdot span{font-family:var(--mono);font-size:24px;color:var(--lime)}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* MARQUEE */
-.mq{
-  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
-  padding:16px 0;overflow:hidden;background:var(--bg2);
-}
-.mq-track{
-  display:flex;width:max-content;
-  animation:mq 28s linear infinite;
-}
-.mq-track:hover{animation-play-state:paused}
-.mq-item{
-  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--text3);padding:0 40px;white-space:nowrap;
-}
-.mq-item .star{color:var(--lime);margin-right:16px}
-@keyframes mq{to{transform:translateX(-50%)}}
-
-/* SECTIONS */
-.sec{padding:120px 60px;max-width:1200px;margin:0 auto}
-.s-tag{
-  display:flex;align-items:center;gap:14px;
-  font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--text3);margin-bottom:56px;
-}
-.s-tag::before{content:'';width:36px;height:1px;background:var(--border2)}
-.s-tag b{color:var(--lime);font-weight:400}
-.s-h{
-  font-family:var(--serif);font-size:clamp(34px,4vw,54px);font-weight:300;
-  letter-spacing:-.03em;line-height:1.1;color:var(--text);margin-bottom:64px;
-}
-.s-h em{font-style:italic;color:var(--text2)}
-
-/* ABOUT */
-#about{border-top:1px solid var(--border)}
-.ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start}
-.ab-text p{
-  font-family:var(--serif);font-size:18px;font-weight:300;
-  color:var(--text2);line-height:1.95;margin-bottom:22px;
-}
-.ab-text p strong{color:var(--text);font-weight:400}
-.ab-text .hi{color:var(--lime);font-style:italic}
-.ab-side{}
-.ab-row{padding:22px 0;border-bottom:1px solid var(--border)}
-.ab-row:first-child{border-top:1px solid var(--border)}
-.ab-key{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
-.ab-val{font-size:15px;color:var(--text)}
-.ab-val .pill{
-  display:inline-block;background:rgba(184,255,87,.1);color:var(--lime);
-  font-family:var(--mono);font-size:10px;padding:2px 10px;border-radius:100px;margin-left:8px;
+@keyframes aurora{
+  from{transform:translateX(-10%) scaleX(1)}
+  to{transform:translateX(10%) scaleX(1.2)}
 }
 
-/* SKILLS */
-#skills{border-top:1px solid var(--border)}
-.sk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
-.sk-card{
-  background:var(--bg2);border:1px solid var(--border);padding:36px 30px;
-  position:relative;overflow:hidden;transition:border-color .3s,transform .3s;
-}
-.sk-card::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(184,255,87,.08),transparent 55%);
-  opacity:0;transition:opacity .4s;
-}
-.sk-card:hover::before{opacity:1}
-.sk-card:hover{border-color:rgba(184,255,87,.2);transform:translateY(-4px)}
-.sk-ico{font-size:26px;margin-bottom:18px}
-.sk-name{font-family:var(--sans);font-size:16px;font-weight:600;color:var(--text);margin-bottom:10px;letter-spacing:-.01em}
-.sk-desc{font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:20px}
-.sk-techs{display:flex;flex-wrap:wrap;gap:6px}
-.sk-t{
-  font-family:var(--mono);font-size:10px;color:var(--text3);
-  background:var(--surface);border:1px solid var(--border2);
-  padding:3px 10px;border-radius:2px;letter-spacing:.04em;
+/* ── TASKBAR ── */
+#taskbar{
+  position:absolute;bottom:0;left:0;right:0;height:40px;
+  background:linear-gradient(to bottom,rgba(20,80,160,.95),rgba(10,50,120,.98));
+  backdrop-filter:blur(12px);
+  border-top:1px solid rgba(255,255,255,.18);
+  display:flex;align-items:center;gap:0;z-index:500;
+  box-shadow:0 -2px 20px rgba(0,0,0,.4);
 }
 
-/* TERMINAL */
-.term-wrap{
-  margin-top:40px;border:1px solid var(--border2);border-radius:6px;
-  overflow:hidden;background:var(--surface);
+/* Start button */
+#start-btn{
+  height:100%;padding:0 14px;
+  background:linear-gradient(to bottom,#4caf50,#2e7d32);
+  border-right:1px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;gap:8px;
+  cursor:pointer;transition:filter .15s;
+  border-radius:0 4px 4px 0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3);
 }
-.term-bar{
-  background:var(--bg2);padding:12px 20px;border-bottom:1px solid var(--border);
+#start-btn:hover{filter:brightness(1.15)}
+#start-btn:active{filter:brightness(.9)}
+.start-orbs{display:flex;gap:2px}
+.so{width:9px;height:9px;border-radius:50%}
+.so.r{background:#f25022}.so.g{background:#7fba00}.so.b{background:#00a4ef}.so.y{background:#ffb900}
+#start-btn span{color:#fff;font-size:13px;font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+
+/* Taskbar items */
+.tb-items{display:flex;gap:2px;padding:4px 8px;flex:1}
+.tb-item{
+  height:32px;padding:0 12px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:3px;
+  display:flex;align-items:center;gap:6px;
+  cursor:pointer;transition:background .15s;
+  font-size:12px;color:rgba(255,255,255,.9);
+  white-space:nowrap;
+}
+.tb-item:hover{background:rgba(255,255,255,.18)}
+.tb-item.active{
+  background:rgba(0,0,0,.3);
+  border-color:rgba(255,255,255,.25);
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.4);
+}
+.tb-ico{font-size:14px}
+
+/* Clock */
+#clock-area{
+  padding:0 16px;text-align:center;
+  border-left:1px solid rgba(255,255,255,.12);
+  cursor:default;
+}
+#clock-time{color:#fff;font-size:12px;font-weight:600;display:block}
+#clock-date{color:rgba(255,255,255,.7);font-size:10px;display:block}
+
+/* ── DESKTOP ICONS ── */
+.icon{
+  position:absolute;display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:6px;border-radius:4px;cursor:pointer;width:80px;
+  transition:background .15s;
+}
+.icon:hover{background:rgba(255,255,255,.15)}
+.icon.selected{background:rgba(100,160,255,.35)}
+.icon-img{
+  width:48px;height:48px;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+  position:relative;
+}
+.icon-label{
+  color:#fff;font-size:11px;text-align:center;line-height:1.3;
+  text-shadow:1px 1px 3px rgba(0,0,0,.8);word-break:break-word;
+}
+
+/* ── WINDOWS ── */
+.win{
+  position:absolute;
+  background:#fff;
+  border-radius:8px 8px 4px 4px;
+  box-shadow:0 8px 40px rgba(0,0,0,.55),0 2px 8px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.8);
+  overflow:hidden;
+  min-width:300px;min-height:200px;
+  display:flex;flex-direction:column;
+}
+.win.hidden{display:none!important}
+.win.minimized{display:none!important}
+
+/* titlebar */
+.win-title{
+  height:30px;
+  background:linear-gradient(to bottom,#4a90d9,#1e5fa8);
+  display:flex;align-items:center;gap:0;
+  padding:0 6px;
+  flex-shrink:0;
+  cursor:move;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.4);
+}
+.win.inactive .win-title{
+  background:linear-gradient(to bottom,#9ab3c8,#7a96ab);
+}
+.win-icon{font-size:14px;margin-right:6px}
+.win-name{color:#fff;font-size:12px;font-weight:600;flex:1;text-shadow:0 1px 2px rgba(0,0,0,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win-controls{display:flex;gap:2px}
+.wc{
+  width:26px;height:20px;border-radius:3px;border:none;
+  font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-weight:700;transition:filter .1s;
+}
+.wc.min{background:linear-gradient(to bottom,#f0c040,#c89020);color:#5a3a00}
+.wc.max{background:linear-gradient(to bottom,#60c060,#308030);color:#fff}
+.wc.cls{background:linear-gradient(to bottom,#e04040,#a02020);color:#fff}
+.wc:hover{filter:brightness(1.2)}
+.wc:active{filter:brightness(.85)}
+
+/* menu bar */
+.win-menu{
+  background:#f0f0f0;border-bottom:1px solid #bbb;
+  padding:2px 6px;display:flex;gap:2px;flex-shrink:0;
+}
+.wm-item{
+  padding:2px 8px;font-size:12px;border-radius:2px;cursor:pointer;
+  color:#000;transition:background .1s;
+}
+.wm-item:hover{background:#3060c0;color:#fff}
+
+/* address bar (explorer) */
+.win-addr{
+  background:#fff;border-bottom:1px solid #ccc;
+  padding:3px 8px;display:flex;align-items:center;gap:8px;flex-shrink:0;
+}
+.addr-back,.addr-fwd{
+  width:24px;height:22px;background:linear-gradient(to bottom,#e8e8e8,#c8c8c8);
+  border:1px solid #aaa;border-radius:3px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:11px;
+}
+.addr-box{
+  flex:1;background:#fff;border:1px solid #7eaad4;
+  border-radius:2px;padding:2px 6px;font-size:12px;font-family:inherit;
+  outline:none;color:#000;
+}
+
+/* win body */
+.win-body{
+  flex:1;overflow:auto;position:relative;
+}
+
+/* resize handle */
+.win-resize{
+  position:absolute;bottom:0;right:0;width:16px;height:16px;
+  cursor:se-resize;
+  background:linear-gradient(135deg,transparent 50%,rgba(0,0,0,.2) 50%);
+  border-radius:0 0 4px 0;
+}
+
+/* ── ABOUT WINDOW ── */
+#win-about .win-body{
+  background:linear-gradient(135deg,#f8f9ff,#eef2ff);
+  padding:28px;
+}
+.about-inner{display:flex;gap:24px;align-items:flex-start}
+.about-avatar{
+  width:90px;height:90px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#1565c0,#42a5f5);
+  display:flex;align-items:center;justify-content:center;
+  font-size:36px;
+  box-shadow:0 4px 16px rgba(21,101,192,.4),inset 0 1px 0 rgba(255,255,255,.3);
+}
+.about-info h2{font-size:20px;color:#0d2a5e;margin-bottom:4px}
+.about-info .title{font-size:13px;color:#1565c0;margin-bottom:12px;font-weight:600}
+.about-info p{font-size:13px;color:#333;line-height:1.7;margin-bottom:10px}
+.about-props{margin-top:14px;display:flex;flex-direction:column;gap:6px}
+.ap{display:flex;gap:10px;font-size:12px}
+.ap-k{color:#777;min-width:80px;font-weight:600}
+.ap-v{color:#222}
+.status-pill{
+  display:inline-block;background:#e8f5e9;color:#2e7d32;
+  border:1px solid #a5d6a7;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:600;
+}
+
+/* ── SKILLS WINDOW ── */
+#win-skills .win-body{background:#f5f5f5;padding:16px}
+.skills-list{display:flex;flex-direction:column;gap:12px}
+.skill-row{background:#fff;border:1px solid #ddd;border-radius:4px;padding:12px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.skill-row-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.skill-row-name{font-size:13px;font-weight:600;color:#222;display:flex;align-items:center;gap:8px}
+.skill-row-pct{font-size:12px;color:#1565c0;font-weight:700}
+.skill-bar{height:8px;background:#e0e0e0;border-radius:4px;overflow:hidden}
+.skill-fill{
+  height:100%;border-radius:4px;
+  background:linear-gradient(90deg,#1565c0,#42a5f5);
+  width:0;transition:width 1.2s ease;
+}
+.skill-tags-row{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+.st{font-size:10px;background:#e3f2fd;color:#1565c0;border:1px solid #bbdefb;padding:2px 7px;border-radius:10px}
+
+/* ── PROJECTS WINDOW ── */
+#win-projects .win-body{background:#f5f5f5}
+.proj-tree{display:flex;height:100%}
+.proj-sidebar{
+  width:160px;border-right:1px solid #ccc;background:#e8eaf0;
+  padding:8px 0;flex-shrink:0;
+}
+.ps-item{
+  padding:6px 12px;font-size:12px;cursor:pointer;color:#333;
+  display:flex;align-items:center;gap:6px;transition:background .1s;
+}
+.ps-item:hover{background:#c5d0e8}
+.ps-item.active{background:#1565c0;color:#fff}
+.proj-content{flex:1;padding:16px;overflow:auto}
+.proj-file{
+  background:#fff;border:1px solid #ddd;border-radius:4px;padding:16px;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);
+}
+.pf-title{
+  font-size:16px;font-weight:700;color:#0d2a5e;margin-bottom:4px;
   display:flex;align-items:center;gap:8px;
 }
-.td{width:12px;height:12px;border-radius:50%}
-.td.r{background:#ff5f56}.td.y{background:#ffbd2e}.td.g{background:#27c93f}
-.term-ttl{font-family:var(--mono);font-size:11px;color:var(--text3);margin-left:8px;letter-spacing:.04em}
-.term-body{padding:26px 30px;font-family:var(--mono);font-size:13px;line-height:2;min-height:180px}
-.tl .pr{color:var(--lime)}
-.tl .cm{color:var(--text)}
-.tl .ot{color:var(--text3)}
-.tl .bl{color:var(--blue)}
-.tl .ok{color:var(--lime)}
-.tcur{display:inline-block;width:8px;height:14px;background:var(--lime);vertical-align:middle;animation:tc .8s infinite}
-@keyframes tc{50%{opacity:0}}
+.pf-type{font-size:10px;background:#fff3e0;color:#e65100;border:1px solid #ffcc80;padding:2px 8px;border-radius:10px;font-weight:600}
+.pf-desc{font-size:13px;color:#444;line-height:1.7;margin:10px 0}
+.pf-stack{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.pst{font-size:11px;background:#e3f2fd;color:#0d47a1;border:1px solid #90caf9;padding:3px 10px;border-radius:3px;font-weight:600}
+.pf-links{margin-top:14px;display:flex;gap:8px}
+.pf-link{
+  font-size:11px;padding:5px 14px;border-radius:3px;text-decoration:none;cursor:pointer;
+  border:none;font-family:inherit;font-weight:600;
+}
+.pf-link.gh{background:#24292e;color:#fff}
+.pf-link.live{background:#1565c0;color:#fff}
+.pf-link:hover{opacity:.85}
 
-/* PROJECTS */
-#projects{border-top:1px solid var(--border)}
-.pj-list{display:flex;flex-direction:column;gap:2px}
-.pj{
-  display:grid;grid-template-columns:72px 1fr 220px;gap:36px;align-items:center;
-  padding:36px 40px;background:var(--bg2);border:1px solid var(--border);
-  text-decoration:none;color:inherit;position:relative;overflow:hidden;
-  transition:border-color .3s;
+/* ── CONTACT WINDOW ── */
+#win-contact .win-body{background:#f0f4ff;padding:20px}
+.contact-form{display:flex;flex-direction:column;gap:12px}
+.cf-row{display:flex;flex-direction:column;gap:4px}
+.cf-label{font-size:12px;color:#555;font-weight:600}
+.cf-input,.cf-textarea{
+  border:1px solid #bbb;border-radius:3px;padding:7px 10px;font-size:13px;font-family:inherit;
+  outline:none;background:#fff;color:#000;
+  transition:border-color .2s;
 }
-.pj::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:0;
-  background:linear-gradient(90deg,rgba(184,255,87,.05),transparent);
-  transition:width .45s;
+.cf-input:focus,.cf-textarea:focus{border-color:#1565c0;box-shadow:0 0 0 2px rgba(21,101,192,.15)}
+.cf-textarea{resize:vertical;min-height:80px}
+.cf-send{
+  background:linear-gradient(to bottom,#1e88e5,#1565c0);
+  color:#fff;border:none;border-radius:3px;padding:9px 20px;
+  font-size:13px;font-weight:700;cursor:pointer;align-self:flex-start;
+  font-family:inherit;box-shadow:0 2px 6px rgba(21,101,192,.4);
+  transition:filter .15s;
 }
-.pj:hover{border-color:rgba(184,255,87,.28)}
-.pj:hover::before{width:100%}
-.pj-num{font-family:var(--mono);font-size:12px;color:var(--text3);letter-spacing:.05em}
-.pj-type{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--lime);margin-bottom:8px}
-.pj-title{font-family:var(--serif);font-size:26px;font-weight:300;color:var(--text);letter-spacing:-.02em;margin-bottom:8px}
-.pj-desc{font-size:13px;color:var(--text2);line-height:1.7}
-.pj-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
-.pj-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
-.pj-t{font-family:var(--mono);font-size:10px;color:var(--text3);border:1px solid var(--border2);padding:4px 12px;border-radius:2px}
-.pj-arr{font-size:20px;color:var(--text3);transition:transform .3s,color .3s}
-.pj:hover .pj-arr{transform:translate(5px,-5px);color:var(--lime)}
+.cf-send:hover{filter:brightness(1.1)}
+.contact-links{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.cl-btn{
+  display:flex;align-items:center;gap:6px;padding:6px 14px;
+  border-radius:3px;font-size:12px;font-weight:600;text-decoration:none;cursor:pointer;
+  border:1px solid;transition:filter .15s;
+}
+.cl-btn:hover{filter:brightness(.9)}
+.cl-github{background:#24292e;color:#fff;border-color:#24292e}
+.cl-linkedin{background:#0077b5;color:#fff;border-color:#0077b5}
+.cl-email{background:#ea4335;color:#fff;border-color:#ea4335}
 
-/* CONTACT */
-#contact{
-  border-top:1px solid var(--border);padding:130px 60px;
-  text-align:center;position:relative;overflow:hidden;
+/* ── NOTEPAD ── */
+#win-notepad .win-body{display:flex;flex-direction:column}
+.notepad-area{
+  flex:1;padding:8px;font-family:'Courier New',monospace;font-size:13px;
+  border:none;outline:none;resize:none;color:#000;background:#fff;
+  line-height:1.6;
 }
-#contact::before{
-  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:700px;height:400px;
-  background:radial-gradient(ellipse,rgba(77,124,255,.07),transparent 70%);
-  pointer-events:none;
-}
-.ct-kicker{
-  font-family:var(--mono);font-size:11px;letter-spacing:.25em;text-transform:uppercase;
-  color:var(--text3);margin-bottom:28px;
-}
-.ct-big{
-  font-family:var(--serif);font-size:clamp(48px,7.5vw,108px);font-weight:300;
-  letter-spacing:-.05em;line-height:.92;color:var(--text);margin-bottom:52px;
-}
-.ct-big span{font-style:italic;color:var(--text2)}
-.ct-email{
-  display:inline-flex;align-items:center;gap:14px;
-  font-family:var(--mono);font-size:15px;color:var(--text);
-  text-decoration:none;border:1px solid var(--border2);padding:18px 44px;
-  border-radius:2px;transition:all .35s;position:relative;overflow:hidden;
-}
-.ct-email::before{
-  content:'';position:absolute;inset:0;background:var(--lime);
-  transform:translateX(-101%);transition:transform .38s ease;
-}
-.ct-email:hover{color:var(--bg);border-color:var(--lime)}
-.ct-email:hover::before{transform:translateX(0)}
-.ct-email span{position:relative;z-index:1}
-.ct-soc{display:flex;justify-content:center;gap:36px;margin-top:56px}
-.ct-soc a{
-  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--text3);text-decoration:none;transition:color .2s;
-}
-.ct-soc a:hover{color:var(--lime)}
 
-/* FOOTER */
-footer{
-  border-top:1px solid var(--border);padding:26px 60px;
-  display:flex;justify-content:space-between;align-items:center;
+/* ── MY COMPUTER ── */
+#win-computer .win-body{background:#f5f5f5;padding:12px}
+.computer-grid{display:grid;grid-template-columns:repeat(auto-fill,80px);gap:16px;padding:8px}
+.comp-item{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  padding:8px;border-radius:4px;cursor:pointer;
+  transition:background .15s;
 }
-.ft-l{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:.04em}
-.ft-r{font-family:var(--mono);font-size:11px;color:var(--text3);display:flex;align-items:center;gap:8px}
-.ft-r::before{content:'';display:inline-block;width:6px;height:6px;background:var(--lime);border-radius:50%;animation:blink 2s infinite}
+.comp-item:hover{background:rgba(21,101,192,.15)}
+.comp-item-ico{font-size:32px}
+.comp-item-name{font-size:11px;color:#000;text-align:center}
 
-/* REVEAL */
-.r{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease}
-.r.v{opacity:1;transform:none}
-.r.d1{transition-delay:.1s}.r.d2{transition-delay:.2s}.r.d3{transition-delay:.3s}.r.d4{transition-delay:.4s}
-
-@keyframes up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
-
-/* RESPONSIVE */
-@media(max-width:900px){
-  nav,nav.solid{padding:18px 24px}
-  .nav-links{display:none}
-  #hero,.sec,#contact{padding-left:24px;padding-right:24px}
-  .h-badge{display:none}
-  .ab-grid{grid-template-columns:1fr;gap:48px}
-  .sk-grid{grid-template-columns:1fr}
-  .pj{grid-template-columns:1fr;gap:14px}
-  .pj-num{display:none}
-  .pj-right{align-items:flex-start}
-  .pj-tags{justify-content:flex-start}
-  footer{padding:22px 24px;flex-direction:column;gap:10px;text-align:center}
+/* ── START MENU ── */
+#start-menu{
+  position:absolute;bottom:40px;left:0;
+  width:360px;
+  background:#1a5fb4;
+  border-radius:6px 6px 0 0;
+  box-shadow:4px -4px 20px rgba(0,0,0,.5);
+  overflow:hidden;display:none;z-index:600;
 }
+#start-menu.open{display:flex;flex-direction:column}
+.sm-header{
+  background:linear-gradient(to right,#1e3a8a,#1565c0);
+  padding:12px 16px;display:flex;align-items:center;gap:12px;
+  border-bottom:2px solid #0d47a1;
+}
+.sm-avatar{
+  width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#42a5f5,#1565c0);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  box-shadow:0 2px 8px rgba(0,0,0,.3);flex-shrink:0;
+}
+.sm-username{color:#fff;font-size:14px;font-weight:700}
+.sm-subtitle{color:rgba(255,255,255,.7);font-size:11px}
+.sm-body{display:flex;background:#fff}
+.sm-left{flex:1;border-right:1px solid #ddd}
+.sm-right{width:140px;background:#e8f0ff}
+.sm-section{padding:4px 0}
+.sm-divider{height:1px;background:#ddd;margin:4px 0}
+.sm-item{
+  padding:6px 14px;font-size:12px;cursor:pointer;color:#000;
+  display:flex;align-items:center;gap:10px;transition:background .1s;
+}
+.sm-item:hover{background:#316ac5;color:#fff}
+.sm-item .smi-ico{font-size:18px;width:24px;text-align:center}
+.sm-right-title{padding:6px 10px;font-size:11px;font-weight:700;color:#1565c0;border-bottom:1px solid #c5d0f0}
+.sm-footer{
+  background:linear-gradient(to right,#1e3a8a,#1565c0);
+  padding:6px 12px;display:flex;justify-content:flex-end;gap:8px;
+}
+.sm-foot-btn{
+  padding:4px 14px;font-size:11px;border-radius:3px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.3);color:#fff;background:rgba(0,0,0,.2);
+  display:flex;align-items:center;gap:5px;font-family:inherit;
+  transition:background .1s;
+}
+.sm-foot-btn:hover{background:rgba(0,0,0,.35)}
+
+/* ── CONTEXT MENU ── */
+#ctx-menu{
+  position:absolute;background:#fff;border:1px solid #aaa;
+  box-shadow:2px 2px 8px rgba(0,0,0,.25);border-radius:2px;
+  display:none;z-index:700;min-width:160px;padding:2px 0;
+}
+#ctx-menu.open{display:block}
+.ctx-item{
+  padding:5px 18px;font-size:12px;cursor:pointer;color:#000;
+  display:flex;align-items:center;gap:8px;
+}
+.ctx-item:hover{background:#316ac5;color:#fff}
+.ctx-sep{height:1px;background:#ddd;margin:2px 0}
+
+/* ── NOTIFICATION ── */
+#notif{
+  position:absolute;bottom:48px;right:8px;
+  background:#fffbe6;border:1px solid #f0c040;border-radius:4px;
+  padding:10px 14px;font-size:12px;color:#333;max-width:260px;
+  box-shadow:0 3px 10px rgba(0,0,0,.2);display:none;z-index:800;
+  animation:notifin .3s ease;
+}
+@keyframes notifin{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}
+#notif.show{display:block}
+#notif-title{font-weight:700;margin-bottom:3px;color:#7a4800}
+#notif-close{position:absolute;top:6px;right:8px;cursor:pointer;color:#999;font-size:14px}
+
+/* ── WALLPAPER ── */
+.wallpaper-text{
+  position:absolute;bottom:60px;left:50%;transform:translateX(-50%);
+  text-align:center;pointer-events:none;
+  opacity:.3;
+}
+.wallpaper-text h1{
+  font-size:clamp(40px,6vw,80px);
+  font-weight:300;color:#fff;letter-spacing:-.02em;
+  text-shadow:0 4px 20px rgba(0,0,0,.3);
+}
+
+/* scrollbar */
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:#f0f0f0}
+::-webkit-scrollbar-thumb{background:#aaa;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#888}
 </style>
 </head>
 <body>
 
-<div id="loader">
-  <div class="ld-text">initializing...</div>
-  <div class="ld-bar"></div>
-</div>
-<div id="cur"></div>
-<div id="trail"></div>
-
-<!-- NAV -->
-<nav id="nav">
-  <a href="#" class="nav-logo"><div class="dot"></div>muhammedsali.dev</a>
-  <ul class="nav-links">
-    <li><a href="#about">Hakkında</a></li>
-    <li><a href="#skills">Yetenekler</a></li>
-    <li><a href="#projects">Projeler</a></li>
-    <li><a href="#contact">İletişim</a></li>
-  </ul>
-  <a href="mailto:Mhmmdsali41@gmail.com" class="nav-btn">İş Teklifi →</a>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <p class="h-eyebrow">Full Stack Developer — Türkiye / Remote</p>
-  <h1 class="h-title">
-    Kod yazıyorum,<br>
-    <span class="gr">Deneyim</span> <span class="ghost">inşa</span><br>
-    ediyorum.
-  </h1>
-  <div class="h-bottom">
-    <p class="h-desc">
-      Merhaba, ben <strong>Muhammed Sali</strong>. Web'in hem görünen hem görünmeyen katmanında çalışan bir geliştirici. Temiz mimari, hızlı arayüzler ve kullanılabilir ürünler üretiyorum.
-    </p>
-    <div class="h-scroll">
-      <div class="h-scroll-line"></div>
-      Scroll
-    </div>
+<!-- BOOT -->
+<div id="boot">
+  <div class="boot-logo">
+    <div class="boot-orb"></div><div class="boot-orb"></div>
+    <div class="boot-orb"></div><div class="boot-orb"></div>
   </div>
-  <div class="h-tags">
-    <span class="h-tag">React</span>
-    <span class="h-tag">Node.js</span>
-    <span class="h-tag">Python</span>
-    <span class="h-tag">PostgreSQL</span>
-    <span class="h-tag">MongoDB</span>
-    <span class="h-tag">Docker</span>
-    <span class="h-tag">REST API</span>
-    <span class="h-tag">Git</span>
-  </div>
-  <div class="h-badge">
-    <svg width="130" height="130" viewBox="0 0 130 130">
-      <defs><path id="cp" d="M65,65 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"/></defs>
-      <text font-family="Syne Mono,monospace" font-size="11" fill="rgba(184,255,87,.55)" letter-spacing="3.2">
-        <textPath href="#cp">AVAILABLE FOR HIRE · OPEN TO WORK · </textPath>
-      </text>
-    </svg>
-    <div class="bdot"><span>✦</span></div>
-  </div>
-</section>
-
-<!-- MARQUEE -->
-<div class="mq">
-  <div class="mq-track">
-    <span class="mq-item"><span class="star">✦</span>Full Stack Development</span>
-    <span class="mq-item"><span class="star">✦</span>Frontend Engineering</span>
-    <span class="mq-item"><span class="star">✦</span>Backend Architecture</span>
-    <span class="mq-item"><span class="star">✦</span>API Design</span>
-    <span class="mq-item"><span class="star">✦</span>Database Design</span>
-    <span class="mq-item"><span class="star">✦</span>UI / UX Implementation</span>
-    <span class="mq-item"><span class="star">✦</span>Performance Optimization</span>
-    <span class="mq-item"><span class="star">✦</span>Clean Code Advocate</span>
-    <span class="mq-item"><span class="star">✦</span>Full Stack Development</span>
-    <span class="mq-item"><span class="star">✦</span>Frontend Engineering</span>
-    <span class="mq-item"><span class="star">✦</span>Backend Architecture</span>
-    <span class="mq-item"><span class="star">✦</span>API Design</span>
-    <span class="mq-item"><span class="star">✦</span>Database Design</span>
-    <span class="mq-item"><span class="star">✦</span>UI / UX Implementation</span>
-    <span class="mq-item"><span class="star">✦</span>Performance Optimization</span>
-    <span class="mq-item"><span class="star">✦</span>Clean Code Advocate</span>
-  </div>
+  <div class="boot-text">Muhammed Sali OS — Yükleniyor...</div>
+  <div class="boot-bar-wrap"><div class="boot-bar"></div></div>
 </div>
 
-<!-- ABOUT -->
-<section id="about">
-<div class="sec">
-  <div class="s-tag r"><b>01</b> — Hakkımda</div>
-  <div class="ab-grid">
-    <div class="ab-text r d1">
-      <p>Merhaba! Ben Muhammed — yazılım dünyasına <span class="hi">tutkuyla bağlı</span> bir junior full stack developer'ım. Web'in her katmanında kendimi geliştirmeye odaklanıyorum.</p>
-      <p>Frontend'de kullanıcıyı <strong>ilk bakışta etkileyen</strong> arayüzler tasarlıyorum. Backend'de ise ölçeklenebilir, güvenilir sistemler kuruyorum. İkisini birden düşünmek beni farklı kılıyor.</p>
-      <p>Henüz yolun başındayım — ama bu benim için <strong>avantaj</strong>. Her projeye önyargısız bakıyorum, hızlı öğreniyorum ve modern standartları en güncel haliyle uyguluyorum.</p>
-    </div>
-    <div class="ab-side r d2">
-      <div class="ab-row"><div class="ab-key">Durum</div><div class="ab-val">İş arıyorum <span class="pill">Açık</span></div></div>
-      <div class="ab-row"><div class="ab-key">Konum</div><div class="ab-val">Türkiye — Remote tercihli</div></div>
-      <div class="ab-row"><div class="ab-key">Odak</div><div class="ab-val">Full Stack Web Development</div></div>
-      <div class="ab-row"><div class="ab-key">Diller</div><div class="ab-val">Türkçe &amp; İngilizce</div></div>
-      <div class="ab-row"><div class="ab-key">GitHub</div><div class="ab-val">@muhammedsali</div></div>
-    </div>
-  </div>
-</div>
-</section>
+<!-- DESKTOP -->
+<div id="desktop">
+  <div class="wallpaper-text"><h1>muhammed.dpdns.org</h1></div>
 
-<!-- SKILLS -->
-<section id="skills">
-<div class="sec">
-  <div class="s-tag r"><b>02</b> — Yetenekler</div>
-  <div class="sk-grid">
-    <div class="sk-card r d1">
-      <div class="sk-ico">⚡</div>
-      <div class="sk-name">Frontend</div>
-      <div class="sk-desc">Piksel hassasiyetinde arayüzler. Hızlı yükleme, akıcı animasyonlar, tam mobil uyum.</div>
-      <div class="sk-techs">
-        <span class="sk-t">HTML5</span><span class="sk-t">CSS3</span><span class="sk-t">JavaScript</span><span class="sk-t">React</span><span class="sk-t">Tailwind</span><span class="sk-t">Figma</span>
+  <!-- ICONS -->
+  <div class="icon" style="top:30px;left:24px" ondblclick="openWin('win-computer')" onclick="selectIcon(this)">
+    <div class="icon-img">🖥️</div>
+    <div class="icon-label">Bilgisayarım</div>
+  </div>
+  <div class="icon" style="top:120px;left:24px" ondblclick="openWin('win-about')" onclick="selectIcon(this)">
+    <div class="icon-img">👤</div>
+    <div class="icon-label">Hakkımda</div>
+  </div>
+  <div class="icon" style="top:210px;left:24px" ondblclick="openWin('win-skills')" onclick="selectIcon(this)">
+    <div class="icon-img">⚙️</div>
+    <div class="icon-label">Yetenekler</div>
+  </div>
+  <div class="icon" style="top:300px;left:24px" ondblclick="openWin('win-projects')" onclick="selectIcon(this)">
+    <div class="icon-img">📁</div>
+    <div class="icon-label">Projeler</div>
+  </div>
+  <div class="icon" style="top:390px;left:24px" ondblclick="openWin('win-contact')" onclick="selectIcon(this)">
+    <div class="icon-img">✉️</div>
+    <div class="icon-label">İletişim</div>
+  </div>
+  <div class="icon" style="top:480px;left:24px" ondblclick="openWin('win-notepad')" onclick="selectIcon(this)">
+    <div class="icon-img">📝</div>
+    <div class="icon-label">Not Defteri</div>
+  </div>
+  <div class="icon" style="top:30px;left:110px" ondblclick="window.open('https://github.com/muhammedsali','_blank')" onclick="selectIcon(this)">
+    <div class="icon-img">🐙</div>
+    <div class="icon-label">GitHub</div>
+  </div>
+  <div class="icon" style="top:120px;left:110px" ondblclick="window.open('https://linkedin.com/in/muhammedsali','_blank')" onclick="selectIcon(this)">
+    <div class="icon-img">💼</div>
+    <div class="icon-label">LinkedIn</div>
+  </div>
+
+  <!-- ABOUT WINDOW -->
+  <div class="win" id="win-about" style="width:500px;height:380px;top:80px;left:200px;display:none">
+    <div class="win-title">
+      <span class="win-icon">👤</span>
+      <span class="win-name">Hakkımda — Muhammed Sali</span>
+      <div class="win-controls">
+        <button class="wc min" onclick="minimizeWin('win-about')">─</button>
+        <button class="wc max" onclick="maximizeWin('win-about')">□</button>
+        <button class="wc cls" onclick="closeWin('win-about')">✕</button>
       </div>
     </div>
-    <div class="sk-card r d2">
-      <div class="sk-ico">🔧</div>
-      <div class="sk-name">Backend</div>
-      <div class="sk-desc">Temiz API mimarisi, veritabanı yönetimi, güvenli ve performanslı sunucu mantığı.</div>
-      <div class="sk-techs">
-        <span class="sk-t">Node.js</span><span class="sk-t">Express</span><span class="sk-t">Python</span><span class="sk-t">REST API</span><span class="sk-t">PostgreSQL</span><span class="sk-t">MongoDB</span>
+    <div class="win-menu">
+      <div class="wm-item">Dosya</div>
+      <div class="wm-item">Düzen</div>
+      <div class="wm-item">Görünüm</div>
+      <div class="wm-item">Yardım</div>
+    </div>
+    <div class="win-body">
+      <div class="about-inner">
+        <div class="about-avatar">👨‍💻</div>
+        <div class="about-info">
+          <h2>Muhammed Sali</h2>
+          <div class="title">Full Stack Developer</div>
+          <p>Merhaba! Web'in hem görünen hem görünmeyen katmanında çalışan bir geliştirici. Frontend'de kullanıcıyı etkileyen arayüzler, backend'de güvenilir sistemler inşa ediyorum.</p>
+          <p>Hızlı öğreniyor, modern standartları takip ediyor ve her projeye tutkuyla yaklaşıyorum.</p>
+          <div class="about-props">
+            <div class="ap"><span class="ap-k">Durum</span><span class="ap-v"><span class="status-pill">✓ İş arıyorum</span></span></div>
+            <div class="ap"><span class="ap-k">Konum</span><span class="ap-v">Türkiye — Remote</span></div>
+            <div class="ap"><span class="ap-k">E-posta</span><span class="ap-v">Mhmmdsali41@gmail.com</span></div>
+            <div class="ap"><span class="ap-k">GitHub</span><span class="ap-v">@muhammedsali</span></div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="sk-card r d3">
-      <div class="sk-ico">🚀</div>
-      <div class="sk-name">DevOps &amp; Tools</div>
-      <div class="sk-desc">Geliştirmeden deploy'a kadar modern araç zinciri. Container, CI/CD, versiyon kontrolü.</div>
-      <div class="sk-techs">
-        <span class="sk-t">Git</span><span class="sk-t">Docker</span><span class="sk-t">Linux</span><span class="sk-t">GitHub Actions</span><span class="sk-t">Vercel</span><span class="sk-t">AWS</span>
+    <div class="win-resize"></div>
+  </div>
+
+  <!-- SKILLS WINDOW -->
+  <div class="win" id="win-skills" style="width:460px;height:440px;top:60px;left:260px;display:none">
+    <div class="win-title">
+      <span class="win-icon">⚙️</span>
+      <span class="win-name">Yetenekler — Sistem Bilgileri</span>
+      <div class="win-controls">
+        <button class="wc min" onclick="minimizeWin('win-skills')">─</button>
+        <button class="wc max" onclick="maximizeWin('win-skills')">□</button>
+        <button class="wc cls" onclick="closeWin('win-skills')">✕</button>
       </div>
+    </div>
+    <div class="win-menu">
+      <div class="wm-item">Görünüm</div>
+      <div class="wm-item">Yardım</div>
+    </div>
+    <div class="win-body" style="padding:14px">
+      <div class="skills-list" id="skills-list">
+        <div class="skill-row" data-pct="85">
+          <div class="skill-row-top">
+            <div class="skill-row-name">⚡ Frontend</div>
+            <div class="skill-row-pct">85%</div>
+          </div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+          <div class="skill-tags-row">
+            <span class="st">HTML5</span><span class="st">CSS3</span><span class="st">JavaScript</span><span class="st">React</span><span class="st">Tailwind</span>
+          </div>
+        </div>
+        <div class="skill-row" data-pct="75">
+          <div class="skill-row-top">
+            <div class="skill-row-name">🔧 Backend</div>
+            <div class="skill-row-pct">75%</div>
+          </div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+          <div class="skill-tags-row">
+            <span class="st">Node.js</span><span class="st">Express</span><span class="st">Python</span><span class="st">REST API</span>
+          </div>
+        </div>
+        <div class="skill-row" data-pct="80">
+          <div class="skill-row-top">
+            <div class="skill-row-name">🗄️ Veritabanı</div>
+            <div class="skill-row-pct">80%</div>
+          </div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+          <div class="skill-tags-row">
+            <span class="st">PostgreSQL</span><span class="st">MongoDB</span><span class="st">MySQL</span>
+          </div>
+        </div>
+        <div class="skill-row" data-pct="70">
+          <div class="skill-row-top">
+            <div class="skill-row-name">🚀 DevOps</div>
+            <div class="skill-row-pct">70%</div>
+          </div>
+          <div class="skill-bar"><div class="skill-fill"></div></div>
+          <div class="skill-tags-row">
+            <span class="st">Git</span><span class="st">Docker</span><span class="st">Linux</span><span class="st">GitHub Actions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="win-resize"></div>
+  </div>
+
+  <!-- PROJECTS WINDOW -->
+  <div class="win" id="win-projects" style="width:580px;height:420px;top:100px;left:220px;display:none">
+    <div class="win-title">
+      <span class="win-icon">📁</span>
+      <span class="win-name">Projeler — Dosya Gezgini</span>
+      <div class="win-controls">
+        <button class="wc min" onclick="minimizeWin('win-projects')">─</button>
+        <button class="wc max" onclick="maximizeWin('win-projects')">□</button>
+        <button class="wc cls" onclick="closeWin('win-projects')">✕</button>
+      </div>
+    </div>
+    <div class="win-menu">
+      <div class="wm-item">Dosya</div>
+      <div class="wm-item">Düzen</div>
+      <div class="wm-item">Görünüm</div>
+    </div>
+    <div class="win-addr">
+      <div class="addr-back">◀</div>
+      <div class="addr-fwd">▶</div>
+      <input class="addr-box" value="C:\Users\Muhammed\Projects" readonly/>
+    </div>
+    <div class="win-body" style="padding:0">
+      <div class="proj-tree">
+        <div class="proj-sidebar">
+          <div class="ps-item active" onclick="showProj(0,this)">📁 <span>proje-1</span></div>
+          <div class="ps-item" onclick="showProj(1,this)">📁 <span>proje-2</span></div>
+          <div class="ps-item" onclick="showProj(2,this)">📁 <span>proje-3</span></div>
+        </div>
+        <div class="proj-content" id="proj-content"></div>
+      </div>
+    </div>
+    <div class="win-resize"></div>
+  </div>
+
+  <!-- CONTACT WINDOW -->
+  <div class="win" id="win-contact" style="width:420px;height:460px;top:70px;left:250px;display:none">
+    <div class="win-title">
+      <span class="win-icon">✉️</span>
+      <span class="win-name">İletişim — Mesaj Gönder</span>
+      <div class="win-controls">
+        <button class="wc min" onclick="minimizeWin('win-contact')">─</button>
+        <button class="wc max" onclick="maximizeWin('win-contact')">□</button>
+        <button class="wc cls" onclick="closeWin('win-contact')">✕</button>
+      </div>
+    </div>
+    <div class="win-body" style="padding:18px">
+      <div class="contact-links">
+        <a class="cl-btn cl-github" href="https://github.com/muhammedsali" target="_blank">🐙 GitHub</a>
+        <a class="cl-btn cl-linkedin" href="https://linkedin.com/in/muhammedsali" target="_blank">💼 LinkedIn</a>
+        <a class="cl-btn cl-email" href="mailto:Mhmmdsali41@gmail.com">✉️ E-posta</a>
+      </div>
+      <div class="contact-form">
+        <div class="cf-row">
+          <label class="cf-label">Adınız</label>
+          <input class="cf-input" id="cf-name" placeholder="Adınız Soyadınız"/>
+        </div>
+        <div class="cf-row">
+          <label class="cf-label">E-posta</label>
+          <input class="cf-input" id="cf-email" type="email" placeholder="ornek@email.com"/>
+        </div>
+        <div class="cf-row">
+          <label class="cf-label">Mesaj</label>
+          <textarea class="cf-textarea" id="cf-msg" placeholder="Merhaba Muhammed, seninle çalışmak istiyorum..."></textarea>
+        </div>
+        <button class="cf-send" onclick="sendContact()">📨 Gönder</button>
+      </div>
+    </div>
+    <div class="win-resize"></div>
+  </div>
+
+  <!-- NOTEPAD -->
+  <div class="win" id="win-notepad" style="width:420px;height:320px;top:120px;left:280px;display:none">
+    <div class="win-title">
+      <span class="win-icon">📝</span>
+      <span class="win-name">Not Defteri — README.txt</span>
+      <div class="win-controls">
+        <button class="wc min" onclick="minimizeWin('win-notepad')">─</button>
+        <button class="wc max" onclick="maximizeWin('win-notepad')">□</button>
+        <button class="wc cls" onclick="closeWin('win-notepad')">✕</button>
+      </div>
+    </div>
+    <div class="win-menu">
+      <div class="wm-item">Dosya</div>
+      <div class="wm-item">Düzen</div>
+      <div class="wm-item">Biçim</div>
+    </div>
+    <div class="win-body">
+      <textarea class="notepad-area">===================================
+  MUHAMMED SALİ — PORTFOLYO
+  Full Stack Developer
+===================================
+
+Merhaba! Bu portfolyoya hoş geldiniz.
+
+Ben Muhammed — web geliştirme tutkunu,
+junior full stack bir developer'ım.
+
+HIZLI ERİŞİM:
+- Hakkımda    → İkona çift tıkla
+- Yetenekler  → ⚙️ ikonu
+- Projeler    → 📁 ikonu  
+- İletişim    → ✉️ ikonu
+- GitHub      → 🐙 ikonu
+
+İletişim: Mhmmdsali41@gmail.com
+
+NOT: Tüm pencereler sürüklenebilir!
+===================================</textarea>
+    </div>
+    <div class="win-resize"></div>
+  </div>
+
+  <!-- MY COMPUTER -->
+  <div class="win" id="win-computer" style="width:480px;height:340px;top:90px;left:210px;display:none">
+    <div class="win-title">
+      <span class="win-icon">🖥️</span>
+      <span class="win-name">Bilgisayarım</span>
+      <div class="win-controls">
+        <button class="wc min" onclick="minimizeWin('win-computer')">─</button>
+        <button class="wc max" onclick="maximizeWin('win-computer')">□</button>
+        <button class="wc cls" onclick="closeWin('win-computer')">✕</button>
+      </div>
+    </div>
+    <div class="win-addr">
+      <div class="addr-back">◀</div>
+      <div class="addr-fwd">▶</div>
+      <input class="addr-box" value="Bilgisayarım" readonly/>
+    </div>
+    <div class="win-body">
+      <div class="computer-grid">
+        <div class="comp-item" ondblclick="openWin('win-about')">
+          <div class="comp-item-ico">👤</div>
+          <div class="comp-item-name">Hakkımda</div>
+        </div>
+        <div class="comp-item" ondblclick="openWin('win-skills')">
+          <div class="comp-item-ico">⚙️</div>
+          <div class="comp-item-name">Yetenekler</div>
+        </div>
+        <div class="comp-item" ondblclick="openWin('win-projects')">
+          <div class="comp-item-ico">📁</div>
+          <div class="comp-item-name">Projeler</div>
+        </div>
+        <div class="comp-item" ondblclick="openWin('win-contact')">
+          <div class="comp-item-ico">✉️</div>
+          <div class="comp-item-name">İletişim</div>
+        </div>
+        <div class="comp-item" ondblclick="openWin('win-notepad')">
+          <div class="comp-item-ico">📝</div>
+          <div class="comp-item-name">README</div>
+        </div>
+        <div class="comp-item" ondblclick="window.open('https://github.com/muhammedsali','_blank')">
+          <div class="comp-item-ico">🐙</div>
+          <div class="comp-item-name">GitHub</div>
+        </div>
+      </div>
+    </div>
+    <div class="win-resize"></div>
+  </div>
+
+  <!-- TASKBAR -->
+  <div id="taskbar">
+    <div id="start-btn" onclick="toggleStart()">
+      <div class="start-orbs">
+        <div class="so r"></div><div class="so g"></div>
+        <div class="so b"></div><div class="so y"></div>
+      </div>
+      <span>Başlat</span>
+    </div>
+    <div class="tb-items" id="tb-items"></div>
+    <div id="clock-area">
+      <span id="clock-time">00:00</span>
+      <span id="clock-date">Yükleniyor</span>
     </div>
   </div>
 
-  <div class="term-wrap r d2">
-    <div class="term-bar">
-      <div class="td r"></div><div class="td y"></div><div class="td g"></div>
-      <span class="term-ttl">~/muhammedsali — zsh</span>
-    </div>
-    <div class="term-body" id="term"></div>
-  </div>
-</div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-<div class="sec">
-  <div class="s-tag r"><b>03</b> — Projeler</div>
-  <div class="pj-list">
-    <a href="#" class="pj r d1">
-      <span class="pj-num">001</span>
+  <!-- START MENU -->
+  <div id="start-menu">
+    <div class="sm-header">
+      <div class="sm-avatar">👨‍💻</div>
       <div>
-        <div class="pj-type">Full Stack App</div>
-        <div class="pj-title">Proje İsmi Bir</div>
-        <div class="pj-desc">Bu projenin kısa açıklaması. Hangi problemi çözdüğünü, nasıl çalıştığını anlat. GitHub linkini ekle.</div>
+        <div class="sm-username">Muhammed Sali</div>
+        <div class="sm-subtitle">Full Stack Developer</div>
       </div>
-      <div class="pj-right">
-        <div class="pj-tags"><span class="pj-t">React</span><span class="pj-t">Node.js</span><span class="pj-t">MongoDB</span></div>
-        <span class="pj-arr">↗</span>
+    </div>
+    <div class="sm-body">
+      <div class="sm-left">
+        <div class="sm-section">
+          <div class="sm-item" onclick="openWin('win-about');closeStart()"><span class="smi-ico">👤</span>Hakkımda</div>
+          <div class="sm-item" onclick="openWin('win-skills');closeStart()"><span class="smi-ico">⚙️</span>Yetenekler</div>
+          <div class="sm-item" onclick="openWin('win-projects');closeStart()"><span class="smi-ico">📁</span>Projeler</div>
+          <div class="sm-item" onclick="openWin('win-contact');closeStart()"><span class="smi-ico">✉️</span>İletişim</div>
+        </div>
+        <div class="sm-divider"></div>
+        <div class="sm-section">
+          <div class="sm-item" onclick="openWin('win-notepad');closeStart()"><span class="smi-ico">📝</span>Not Defteri</div>
+          <div class="sm-item" onclick="openWin('win-computer');closeStart()"><span class="smi-ico">🖥️</span>Bilgisayarım</div>
+        </div>
       </div>
-    </a>
-    <a href="#" class="pj r d2">
-      <span class="pj-num">002</span>
-      <div>
-        <div class="pj-type">REST API</div>
-        <div class="pj-title">Proje İsmi İki</div>
-        <div class="pj-desc">İkinci projenin açıklaması. Kullandığın teknolojileri, öğrendiklerini ve elde ettiğin sonuçları yaz.</div>
+      <div class="sm-right">
+        <div class="sm-right-title">Hızlı Erişim</div>
+        <div class="sm-item" onclick="window.open('https://github.com/muhammedsali','_blank');closeStart()"><span class="smi-ico">🐙</span>GitHub</div>
+        <div class="sm-item" onclick="window.open('https://linkedin.com/in/muhammedsali','_blank');closeStart()"><span class="smi-ico">💼</span>LinkedIn</div>
+        <div class="sm-item" onclick="window.open('mailto:Mhmmdsali41@gmail.com');closeStart()"><span class="smi-ico">📧</span>E-posta</div>
       </div>
-      <div class="pj-right">
-        <div class="pj-tags"><span class="pj-t">Python</span><span class="pj-t">FastAPI</span><span class="pj-t">PostgreSQL</span></div>
-        <span class="pj-arr">↗</span>
-      </div>
-    </a>
-    <a href="#" class="pj r d3">
-      <span class="pj-num">003</span>
-      <div>
-        <div class="pj-type">Frontend</div>
-        <div class="pj-title">Proje İsmi Üç</div>
-        <div class="pj-desc">Üçüncü projenin açıklaması. Tasarım kararlarını, teknik zorlukları ve çözüm yaklaşımını anlat.</div>
-      </div>
-      <div class="pj-right">
-        <div class="pj-tags"><span class="pj-t">Next.js</span><span class="pj-t">TypeScript</span><span class="pj-t">Tailwind</span></div>
-        <span class="pj-arr">↗</span>
-      </div>
-    </a>
+    </div>
+    <div class="sm-footer">
+      <button class="sm-foot-btn" onclick="showNotif('Kapatılıyor...','Sistem kapatılıyor 😄')">🔴 Kapat</button>
+      <button class="sm-foot-btn" onclick="showNotif('Yeniden Başlatılıyor','Lütfen bekleyin...')">🔄 Yeniden Başlat</button>
+    </div>
+  </div>
+
+  <!-- CONTEXT MENU -->
+  <div id="ctx-menu">
+    <div class="ctx-item" onclick="openWin('win-about');closeCtx()">👤 Hakkımda</div>
+    <div class="ctx-item" onclick="openWin('win-projects');closeCtx()">📁 Projeler</div>
+    <div class="ctx-sep"></div>
+    <div class="ctx-item" onclick="closeCtx()">🖼️ Masaüstünü Yenile</div>
+    <div class="ctx-sep"></div>
+    <div class="ctx-item" onclick="closeCtx()">⚙️ Kişiselleştir</div>
+  </div>
+
+  <!-- NOTIFICATION -->
+  <div id="notif">
+    <span id="notif-close" onclick="hideNotif()">✕</span>
+    <div id="notif-title"></div>
+    <div id="notif-msg"></div>
   </div>
 </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <p class="ct-kicker r">Yeni bir şey inşa edelim</p>
-  <div class="ct-big r d1">Birlikte<br><span>çalışalım.</span></div>
-  <a href="mailto:Mhmmdsali41@gmail.com" class="ct-email r d2">
-    <span>✉</span><span>Mhmmdsali41@gmail.com</span><span>→</span>
-  </a>
-  <div class="ct-soc r d3">
-    <a href="https://github.com/muhammedsali" target="_blank">GitHub</a>
-    <a href="https://linkedin.com/in/muhammedsali" target="_blank">LinkedIn</a>
-    <a href="#">Twitter</a>
-    <a href="#">CV İndir</a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <span class="ft-l">© 2026 Muhammed Sali</span>
-  <div class="ft-r">muhammed.dpdns.org — canlıda</div>
-</footer>
 
 <script>
-// Loader
-window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('hide'),1400));
-
-// Cursor
-const cur=document.getElementById('cur'),trail=document.getElementById('trail');
-let tx=0,ty=0,cx=0,cy=0;
-document.addEventListener('mousemove',e=>{
-  tx=e.clientX;ty=e.clientY;
-  cur.style.left=tx+'px';cur.style.top=ty+'px';
-});
-document.querySelectorAll('a,button,.sk-card,.pj,.h-tag').forEach(el=>{
-  el.addEventListener('mouseenter',()=>cur.classList.add('big'));
-  el.addEventListener('mouseleave',()=>cur.classList.remove('big'));
-});
-(function at(){
-  cx+=(tx-cx)*.1;cy+=(ty-cy)*.1;
-  trail.style.left=cx+'px';trail.style.top=cy+'px';
-  requestAnimationFrame(at);
-})();
-
-// Nav
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('solid',scrollY>60));
-
-// Reveal
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}});
-},{threshold:.1});
-document.querySelectorAll('.r').forEach(el=>obs.observe(el));
-
-// Skill card glow
-document.querySelectorAll('.sk-card').forEach(c=>{
-  c.addEventListener('mousemove',e=>{
-    const r=c.getBoundingClientRect();
-    c.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
-    c.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
-  });
-});
-
-// Terminal
-const tlines=[
-  {t:'cmd',s:'whoami'},
-  {t:'out',s:'muhammed-sali  →  full-stack-developer'},
-  {t:'cmd',s:'cat skills.json'},
-  {t:'out',s:'{ frontend: ["React","CSS","JS"], backend: ["Node","Python"], db: ["Postgres","Mongo"] }'},
-  {t:'cmd',s:'git log --oneline -3'},
-  {t:'hi', s:'a4f2c1b feat: add authentication module'},
-  {t:'hi', s:'9d3e07a fix: optimize database queries'},
-  {t:'hi', s:'2b8f5d6 chore: update dependencies'},
-  {t:'cmd',s:'echo $AVAILABILITY'},
-  {t:'ok', s:'✓  Open to work · Remote friendly · Fast learner'},
-];
-const term=document.getElementById('term');
-let tli=0;
-function ttype(){
-  if(tli>=tlines.length){
-    const d=document.createElement('div');d.className='tl';
-    d.innerHTML='<span class="pr">❯</span> <span class="tcur"></span>';
-    term.appendChild(d);return;
+// Projects data
+const projects = [
+  {
+    title:'Proje İsmi Bir',
+    type:'Full Stack App',
+    desc:'Bu projenin açıklaması. Hangi problemi çözdüğünü, nasıl çalıştığını anlat. Kendi gerçek projenle değiştir.',
+    stack:['React','Node.js','MongoDB','Express'],
+    gh:'#',live:'#'
+  },
+  {
+    title:'Proje İsmi İki',
+    type:'REST API',
+    desc:'İkinci projenin açıklaması. Kullandığın teknolojiler, öğrendiklerin ve elde ettiğin sonuçlar.',
+    stack:['Python','FastAPI','PostgreSQL','Docker'],
+    gh:'#',live:'#'
+  },
+  {
+    title:'Proje İsmi Üç',
+    type:'Frontend',
+    desc:'Üçüncü projenin açıklaması. Tasarım kararları, teknik zorluklar ve çözüm yaklaşımın.',
+    stack:['Next.js','TypeScript','Tailwind','Vercel'],
+    gh:'#',live:'#'
   }
-  const l=tlines[tli++];
-  const d=document.createElement('div');d.className='tl';
-  if(l.t==='cmd') d.innerHTML=`<span class="pr">❯</span> <span class="cm">${l.s}</span>`;
-  else if(l.t==='ok') d.innerHTML=`<span class="ok">${l.s}</span>`;
-  else if(l.t==='hi') d.innerHTML=`<span class="bl">${l.s}</span>`;
-  else d.innerHTML=`<span class="ot">${l.s}</span>`;
-  term.appendChild(d);term.scrollTop=term.scrollHeight;
-  setTimeout(ttype,l.t==='cmd'?620:280);
+];
+
+// Show project
+function showProj(i, el) {
+  document.querySelectorAll('.ps-item').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  const p = projects[i];
+  document.getElementById('proj-content').innerHTML = `
+    <div class="proj-file">
+      <div class="pf-title">${p.title} <span class="pf-type">${p.type}</span></div>
+      <div class="pf-desc">${p.desc}</div>
+      <div class="pf-stack">${p.stack.map(s=>`<span class="pst">${s}</span>`).join('')}</div>
+      <div class="pf-links">
+        <button class="pf-link gh" onclick="window.open('${p.gh}','_blank')">🐙 GitHub</button>
+        <button class="pf-link live" onclick="window.open('${p.live}','_blank')">🌐 Canlı</button>
+      </div>
+    </div>`;
 }
-const to=new IntersectionObserver(en=>{if(en[0].isIntersecting){ttype();to.disconnect()}},{threshold:.3});
-to.observe(document.querySelector('.term-wrap'));
+showProj(0, document.querySelector('.ps-item'));
+
+// Window management
+let zTop = 10;
+const wins = {};
+
+function openWin(id) {
+  closeStart();
+  const el = document.getElementById(id);
+  el.classList.remove('hidden','minimized');
+  el.style.display = 'flex';
+  bringToFront(id);
+  addTaskbarItem(id);
+  // animate skills bars when skills window opens
+  if(id==='win-skills') setTimeout(animateBars,200);
+}
+
+function closeWin(id) {
+  document.getElementById(id).style.display = 'none';
+  removeTaskbarItem(id);
+}
+
+function minimizeWin(id) {
+  document.getElementById(id).style.display = 'none';
+  // keep in taskbar
+  const tbi = document.getElementById('tbi-'+id);
+  if(tbi) tbi.classList.remove('active');
+}
+
+let maxed = {};
+function maximizeWin(id) {
+  const el = document.getElementById(id);
+  if(maxed[id]) {
+    Object.assign(el.style,maxed[id]);
+    delete maxed[id];
+  } else {
+    maxed[id] = {width:el.style.width,height:el.style.height,top:el.style.top,left:el.style.left};
+    Object.assign(el.style,{width:'100vw',height:'calc(100vh - 40px)',top:'0',left:'0',borderRadius:'0'});
+  }
+}
+
+function bringToFront(id) {
+  zTop++;
+  document.getElementById(id).style.zIndex = zTop;
+  // mark inactive all others
+  document.querySelectorAll('.win').forEach(w=>{
+    w.classList.toggle('inactive', w.id !== id);
+  });
+  document.querySelectorAll('.tb-item').forEach(t=>{
+    t.classList.toggle('active', t.id==='tbi-'+id);
+  });
+}
+
+// Taskbar
+const winNames = {
+  'win-about':'👤 Hakkımda',
+  'win-skills':'⚙️ Yetenekler',
+  'win-projects':'📁 Projeler',
+  'win-contact':'✉️ İletişim',
+  'win-notepad':'📝 Not Defteri',
+  'win-computer':'🖥️ Bilgisayarım'
+};
+
+function addTaskbarItem(id) {
+  if(document.getElementById('tbi-'+id)) {
+    document.getElementById(id).style.display='flex';
+    bringToFront(id);
+    return;
+  }
+  const tbi = document.createElement('div');
+  tbi.className = 'tb-item active';
+  tbi.id = 'tbi-'+id;
+  tbi.innerHTML = winNames[id]||id;
+  tbi.onclick = () => {
+    const w = document.getElementById(id);
+    if(w.style.display==='none') {
+      w.style.display='flex';
+      bringToFront(id);
+    } else if(parseInt(w.style.zIndex)<zTop) {
+      bringToFront(id);
+    } else {
+      w.style.display='none';
+      tbi.classList.remove('active');
+    }
+  };
+  document.getElementById('tb-items').appendChild(tbi);
+}
+
+function removeTaskbarItem(id) {
+  const tbi = document.getElementById('tbi-'+id);
+  if(tbi) tbi.remove();
+}
+
+// Dragging
+document.querySelectorAll('.win-title').forEach(title => {
+  const win = title.parentElement;
+  let dragging=false,ox=0,oy=0;
+  title.addEventListener('mousedown',e=>{
+    if(e.target.classList.contains('wc')) return;
+    dragging=true;
+    ox=e.clientX-win.offsetLeft;
+    oy=e.clientY-win.offsetTop;
+    bringToFront(win.id);
+    document.body.style.cursor='grabbing';
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!dragging) return;
+    win.style.left=Math.max(0,e.clientX-ox)+'px';
+    win.style.top=Math.max(0,Math.min(e.clientY-oy,window.innerHeight-40))+'px';
+  });
+  document.addEventListener('mouseup',()=>{dragging=false;document.body.style.cursor='';});
+});
+
+// Resize
+document.querySelectorAll('.win-resize').forEach(handle => {
+  const win = handle.parentElement;
+  let resizing=false,sx=0,sy=0,sw=0,sh=0;
+  handle.addEventListener('mousedown',e=>{
+    resizing=true;sx=e.clientX;sy=e.clientY;
+    sw=win.offsetWidth;sh=win.offsetHeight;e.preventDefault();
+  });
+  document.addEventListener('mousemove',e=>{
+    if(!resizing) return;
+    win.style.width=Math.max(300,sw+e.clientX-sx)+'px';
+    win.style.height=Math.max(200,sh+e.clientY-sy)+'px';
+  });
+  document.addEventListener('mouseup',()=>resizing=false);
+});
+
+// Click to focus
+document.querySelectorAll('.win').forEach(w=>{
+  w.addEventListener('mousedown',()=>bringToFront(w.id));
+});
+
+// Start menu
+function toggleStart(){document.getElementById('start-menu').classList.toggle('open')}
+function closeStart(){document.getElementById('start-menu').classList.remove('open')}
+
+// Context menu
+document.getElementById('desktop').addEventListener('contextmenu',e=>{
+  if(e.target.closest('.win')||e.target.closest('#taskbar')) return;
+  e.preventDefault();
+  const m=document.getElementById('ctx-menu');
+  m.style.left=Math.min(e.clientX,window.innerWidth-170)+'px';
+  m.style.top=Math.min(e.clientY,window.innerHeight-150)+'px';
+  m.classList.add('open');
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#ctx-menu')) closeCtx();
+  if(!e.target.closest('#start-menu')&&!e.target.closest('#start-btn')) closeStart();
+});
+function closeCtx(){document.getElementById('ctx-menu').classList.remove('open')}
+
+// Notification
+function showNotif(title,msg){
+  document.getElementById('notif-title').textContent=title;
+  document.getElementById('notif-msg').textContent=msg;
+  document.getElementById('notif').classList.add('show');
+  setTimeout(hideNotif,3500);
+}
+function hideNotif(){document.getElementById('notif').classList.remove('show')}
+
+// Clock
+function updateClock(){
+  const now=new Date();
+  document.getElementById('clock-time').textContent=
+    now.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('clock-date').textContent=
+    now.toLocaleDateString('tr-TR',{day:'2-digit',month:'2-digit',year:'numeric'});
+}
+setInterval(updateClock,1000);updateClock();
+
+// Skill bars animation
+function animateBars(){
+  document.querySelectorAll('.skill-row').forEach(row=>{
+    const pct=row.dataset.pct;
+    row.querySelector('.skill-fill').style.width=pct+'%';
+  });
+}
+
+// Contact form
+function sendContact(){
+  const name=document.getElementById('cf-name').value;
+  const email=document.getElementById('cf-email').value;
+  const msg=document.getElementById('cf-msg').value;
+  if(!name||!email||!msg){showNotif('⚠️ Hata','Lütfen tüm alanları doldurun.');return;}
+  window.location.href=`mailto:Mhmmdsali41@gmail.com?subject=Portfolio İletişim - ${name}&body=${encodeURIComponent(msg)}%0A%0AGönderen: ${name}%0AE-posta: ${email}`;
+  showNotif('✓ Gönderildi',`Mesajınız iletiliyor, ${name}!`);
+}
+
+// Desktop icon single click select
+function selectIcon(el){
+  document.querySelectorAll('.icon').forEach(i=>i.classList.remove('selected'));
+  el.classList.add('selected');
+}
+document.getElementById('desktop').addEventListener('click',e=>{
+  if(!e.target.closest('.icon')) document.querySelectorAll('.icon').forEach(i=>i.classList.remove('selected'));
+});
+
+// Boot sequence
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('boot').classList.add('fade');
+    setTimeout(()=>{
+      document.getElementById('boot').remove();
+      // auto open notepad as welcome
+      openWin('win-notepad');
+      showNotif('🖥️ Hoş Geldiniz!','Muhammed Sali Portfolio OS\'ye hoş geldiniz. İkonlara çift tıklayın!');
+    },1000);
+  },2600);
+});
 </script>
 </body>
 </html>
