@@ -44,11 +44,43 @@ body{
 /* ── DESKTOP ── */
 #desktop{
   width:100vw;height:100vh;position:relative;overflow:hidden;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Bliss_location%2C_Sonoma_Valley.jpg/1280px-Bliss_location%2C_Sonoma_Valley.jpg');
-  background-size:cover;
-  background-position:center;
+  background:
+    /* sky */
+    linear-gradient(180deg,
+      #4a90d9 0%,
+      #74b3e8 28%,
+      #a8d4f5 45%,
+      #c8e8fb 55%,
+      /* horizon glow */
+      #d4ecf7 58%,
+      /* green hill */
+      #7ab648 62%,
+      #5a9e2f 72%,
+      #3d7a1a 85%,
+      #2d6010 100%
+    );
 }
-#desktop::before{content:none}
+/* Clouds */
+#desktop::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 220px 60px at 20% 22%, rgba(255,255,255,.82), transparent 70%),
+    radial-gradient(ellipse 140px 40px at 28% 18%, rgba(255,255,255,.6), transparent 70%),
+    radial-gradient(ellipse 180px 50px at 70% 15%, rgba(255,255,255,.78), transparent 70%),
+    radial-gradient(ellipse 120px 35px at 78% 11%, rgba(255,255,255,.55), transparent 70%),
+    radial-gradient(ellipse 100px 30px at 50% 25%, rgba(255,255,255,.45), transparent 70%),
+    /* hill highlight */
+    radial-gradient(ellipse 80% 30% at 50% 62%, rgba(160,210,80,.35), transparent 60%),
+    /* sun glow on horizon */
+    radial-gradient(ellipse 40% 12% at 62% 57%, rgba(255,255,220,.3), transparent 70%);
+}
+/* Hill bump shape */
+#desktop::after{
+  content:'';position:absolute;
+  bottom:38px;left:-5%;width:110%;height:45%;
+  background:radial-gradient(ellipse 60% 80% at 50% 100%, #5a9e2f 40%, transparent 70%);
+  pointer-events:none;
+}
 
 /* ── TASKBAR ── */
 #taskbar{
