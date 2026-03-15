@@ -20,7 +20,7 @@ body{
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;
   transition:opacity 1s;
 }
-#boot.fade{opacity:0;pointer-events:none}
+#boot.fade{opacity:0;pointer-events:none;visibility:hidden}
 .boot-logo{
   display:flex;gap:4px;
 }
@@ -533,7 +533,7 @@ body{
             <div class="ap"><span class="ap-k">Durum</span><span class="ap-v"><span class="status-pill">✓ Staj arıyorum</span></span></div>
             <div class="ap"><span class="ap-k">Staj tipi</span><span class="ap-v">Zorunlu staj (tam zamanlı)</span></div>
             <div class="ap"><span class="ap-k">Konum</span><span class="ap-v">Türkiye — Remote/Hibrit</span></div>
-            <div class="ap"><span class="ap-k">E-posta</span><span class="ap-v"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="731e061b121e1e16175d00121f1a42331c06071f1c1c185d101c1e">[email&#160;protected]</a></span></div>
+            <div class="ap"><span class="ap-k">E-posta</span><span class="ap-v">muhammed.sali1@outlook.com</span></div>
             <div class="ap"><span class="ap-k">GitHub</span><span class="ap-v">@muhammedsali</span></div>
           </div>
         </div>
@@ -656,7 +656,7 @@ body{
       <div class="contact-links">
         <a class="cl-btn cl-github" href="https://github.com/muhammedsali" target="_blank">🐙 GitHub</a>
         <a class="cl-btn cl-linkedin" href="https://linkedin.com/in/muhammedsali" target="_blank">💼 LinkedIn</a>
-        <a class="cl-btn cl-email" href="/cdn-cgi/l/email-protection#5439213c35393931307a2735383d65143b2120383b3b3f7a373b39">✉️ E-posta</a>
+        <a class="cl-btn cl-email" href="mailto:muhammed.sali1@outlook.com">✉️ E-posta</a>
       </div>
       <div class="contact-form">
         <div class="cf-row">
@@ -843,7 +843,7 @@ NOT: Tüm pencereler sürüklenebilir!
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // Projects data
 const projects = [
   {
@@ -855,33 +855,35 @@ const projects = [
   },
   {
     title:'MemoryCard',
-    type:'Android Oyun — Kotlin',
+    type:'Android Oyun - Kotlin',
     desc:'Jetpack Compose ile geliştirilmiş modern hafıza kartı oyunu. 3 zorluk seviyesi (3x2, 3x4, 4x4), hayvan ve meyve temaları, kart çevirme animasyonları, müzik kontrolü ve skor/zamanlayıcı sistemi içeriyor.',
     stack:['Kotlin','Jetpack Compose','Material Design 3','Android'],
     gh:'https://github.com/muhammedsali/MemoryCard',live:null
   },
   {
     title:'MobileAgentControl V2',
-    type:'Android + Windows — Firebase',
+    type:'Android + Windows - Firebase',
     desc:"Valorant oyununda Android'den uzaktan ajan seçimi ve kilitleme sistemi. Firebase Realtime ile anlık senkronizasyon, Windows tarafında C# ile otomatik fare kontrolü. Rol bazlı ajan kategorileri ve modern kart arayüzü içeriyor.",
     stack:['Kotlin','C#','.NET 6','Firebase','Cloud Firestore','Material 3'],
     gh:'https://github.com/muhammedsali/MobileAgentControl-V2',live:null
   },
   {
     title:'RestoranTakip',
-    type:'Masaüstü Uygulama — C#',
+    type:'Masaüstü Uygulama - C#',
     desc:'Online restoran sipariş takip sistemi. Siparişlerin anlık yönetimi, masa takibi ve raporlama özelliklerini barındıran Windows Forms tabanlı masaüstü uygulaması.',
     stack:['C#','.NET','Windows Forms','SQL'],
     gh:'https://github.com/muhammedsali/RestoranTakip',live:null
   },
   {
     title:'Waitly',
-    type:'Flutter + Node.js — Mobil SaaS',
-    desc:'"Don\'t wait. We do." — Kullanıcıların beklediği her şeyi (İŞKUR ilanı, film/dizi çıkışı, ürün stoğu, sınav duyurusu vb.) otomatik takip eden akıllı asistan. Arka planda çalışan cron+worker motoru değişiklik tespit edince FCM push bildirimi gönderiyor. Freemium modeli ile premium kullanıcılara daha sık kontrol aralığı sunuyor.',
+    type:'Flutter + Node.js - Mobil SaaS',
+    desc:'"Don\'t wait. We do." - Kullanıcıların beklediği her şeyi (İŞKUR ilanı, film/dizi çıkışı, ürün stoğu, sınav duyurusu vb.) otomatik takip eden akıllı asistan. Arka planda çalışan cron+worker motoru değişiklik tespit edince FCM push bildirimi gönderiyor. Freemium modeli ile premium kullanıcılara daha sık kontrol aralığı sunuyor.',
     stack:['Flutter','Node.js','Express','MongoDB','Firebase FCM','JWT','Clean Architecture'],
     gh:'https://github.com/muhammedsali/waitly',live:null
   },
-    type:'Java Masaüstü — JavaFX',
+  {
+    title:'NotDefteri',
+    type:'Java Masaüstü - JavaFX',
     desc:'JavaFX ve FXML ile geliştirilmiş kişisel not defteri. Abstract Factory, Observer ve State tasarım desenleri kullanıldı. MySQL ile CRUD işlemleri, hatırlatma tarihi ve not durum yönetimi (Yeni, Okunmuş, Düzenlenmiş, Silinmiş) içeriyor.',
     stack:['Java','JavaFX','MySQL','Maven','Design Patterns'],
     gh:'https://github.com/muhammedsali/NotDefteri',live:null
@@ -1106,5 +1108,14 @@ document.getElementById('desktop').addEventListener('click',e=>{
 // Boot sequence
 window.addEventListener('load',()=>{
   setTimeout(()=>{
-    document.getElementById('boot').classList.add('fade');
-    set
+    const boot = document.getElementById('boot');
+    boot.classList.add('fade');
+    setTimeout(()=>{
+      boot.style.display='none';
+      openWin('win-notepad');
+      showNotif('👋 Hoş Geldiniz!','Muhammed Sali Staj Portfolyosu. İkonlara çift tıklayın!');
+    },700);
+  },2600);
+});</script>
+</body>
+</html>
